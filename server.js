@@ -4,6 +4,9 @@ import mongoose from "mongoose";
 import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRouter.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
@@ -18,7 +21,7 @@ app.use((req,res,next)=>{
 
         token = token.replace("Bearer ","");
         console.log(token)
-        jwt.verify(token, "Amindu123",(err,decoded)=>{
+        jwt.verify(token, process.env.JWT_SECRET,(err,decoded)=>{
 
             console.log(err);
             if(!err){
@@ -31,7 +34,7 @@ app.use((req,res,next)=>{
 })
 
 
-let mongoURL = "mongodb+srv://amindu:Amindu123@cluster0.asoau.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+let mongoURL = process.env.MONGO_URL;
 
 mongoose.connect(mongoURL);
 let connection = mongoose.connection;
